@@ -1,0 +1,98 @@
+/*
+ * Style definition for my website
+ */
+
+p {
+    font-family: 'Bitter', serif;
+    font-weight: 400;
+    font-size: 1.1em;
+    line-height: 1.8em;
+}
+
+div.content {
+    margin-top: 20px;
+    max-width: 80ch;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+div.meta {
+    margin-top: 20px;
+    margin-left: 50%;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 700;
+    font-size: 3em;
+}
+
+pre {
+    font-family: 'Source Code Pro', monospace;
+    font-weight: 400;
+    font-size: 1.0em;
+    line-height: 1.2em;
+
+    text-align: left;
+    text-justify: none;
+
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+div.profilepic {
+    min-width: 50%;
+    max-width: 70%;
+}
+
+img.responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+img.profilepic {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius:5px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 2%;
+    max-width: 98%;
+}
+
+/* Dynamic two column layout */
+@media all and (min-width: 630px) {
+  /* two column code */
+  #container {
+    display: flex;
+    align-items: stretch;
+    flex-flow: row wrap;
+  }
+  #left {
+    order: 1;
+    width: 30%;
+  }
+  #right {
+    order: 2;
+    width: 70%;
+  }
+}
+@media all and (max-width: 629px) {
+  /* one column code */
+  #container {
+    display: flex;
+    align-items: stretch;
+    flex-flow: column wrap;
+  }
+  #left {
+    order: 2;
+    width: 100%;
+  }
+  #right {
+    order: 1;
+    width: 100%;
+  }
+}
