@@ -1,98 +1,549 @@
+@charset "UTF-8";
+
 /*
  * Style definition for my website
  */
 
-p {
-    font-family: 'Bitter', serif;
-    font-weight: 400;
-    font-size: 1.1em;
-    line-height: 1.8em;
+/* Fonts */
+@font-face {
+    font-family: 'Linux Biolinum O Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Linux Biolinum O Regular'), url('../fonts/LinBiolinum_R.woff') format('woff');
 }
 
-div.content {
-    margin-top: 20px;
-    max-width: 80ch;
-    text-align: justify;
-    text-justify: inter-word;
+
+@font-face {
+    font-family: 'Linux Biolinum O Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Linux Biolinum O Italic'), url('../fonts/LinBiolinum_RI.woff') format('woff');
 }
 
-div.meta {
-    margin-top: 20px;
-    margin-left: 50%;
+
+@font-face {
+    font-family: 'Linux Biolinum O Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Linux Biolinum O Bold'), url('../fonts/LinBiolinum_RB.woff') format('woff');
 }
 
-h1, h2, h3, h4, h5 {
-    font-family: 'Work Sans', sans-serif;
-    font-weight: 700;
-    font-size: 3em;
+
+@font-face {
+    font-family: 'Linux Biolinum Keyboard O Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Linux Biolinum Keyboard O Regular'), url('../fonts/LinBiolinum_K.woff') format('woff');
 }
 
-pre {
-    font-family: 'Source Code Pro', monospace;
-    font-weight: 400;
-    font-size: 1.0em;
-    line-height: 1.2em;
+@font-face {
+    font-family: 'Linux Libertine';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Linux Libertine'), url('../fonts/LinLibertine_Re-4.1_.8_.woff') format('woff');
+}
 
+
+@font-face {
+    font-family: 'Linux Libertine Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Linux Libertine Italic'), url('../fonts/LinLibertine_It-4.0_.3_.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Linux Libertine Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Linux Libertine Bold'), url('../fonts/LinLibertine_Bd-4.0_.2_.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Linux Libertine Bold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Linux Libertine Bold Italic'), url('../fonts/LinLibertine_BI-4.0_.3_.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Linux Libertine Capitals';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Linux Libertine Capitals'), url('../fonts/LinLibertineC_Re-4.0_.1_.woff') format('woff');
+}
+
+/* Markup */
+html {
+    font-size: 15px;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    width: 87.5%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 12.5%;
+    font-family: "Linux Libertine", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
+    background-color: #fffff8;
+    color: #111;
+    max-width: 1600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+.sticky-footer {
+    flex-shrink: 0;
     text-align: left;
-    text-justify: none;
-
-    overflow-x: auto;
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
 }
 
-div.profilepic {
-    min-width: 50%;
-    max-width: 70%;
+/* Adds dark mode 
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #151515;
+        color: #ddd;
+    }
+}
+*/
+h1, h2, h3, h4, h5 {
+    font-weight: 400;
+    line-height: 1;
 }
 
-img.responsive {
+h1, h2 {
+    font-family: "Linux Biolinum O Bold", sans-serif;
+}
+
+h3, h4, h5 {
+        font-family: "Linux Biolinum O Regular", sans-serif;
+}
+
+h1 {
+    font-size: 3.2rem;
+}
+
+h2 {
+    margin-top: 2.1rem;
+    margin-bottom: 0.75rem;
+    font-size: 2.2rem;
+}
+
+h3 {
+    font-size: 1.7rem;
+    margin-top: 2rem;
+    margin-bottom: 1.4rem;
+}
+
+hr {
+    /* display: block; */
+    /* height: 1px; */
+    /* width: 55%; */
+    /* border: 0; */
+    /* border-top: 1px solid #ccc; */
+    /* margin: 1em 0; */
+    /* padding: 0; */
+    margin-left: 0;
+    width: 87%;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.55), rgba(192, 204, 153, 0.25));
+}
+
+em {
+    font-family: "Linux Libertine Bold", sans-serif;
+    font-style: normal;
+}
+
+.profile {
+    display: flex;
+}
+
+.profile-picture {
+    flex: 25%;
+}
+
+.profile-details {
+    margin-left: 4rem;
+    flex: 75%;
+}
+
+ul.profile-links {
+    list-style-type: none;
+    margin-left: -2.4rem;
+    margin-top: -1rem;
+}
+
+ul.profile-links li {
+    display: inline;
+}
+
+p.subtitle {
+    font-style: italic;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    display: block;
+    line-height: 1;
+}
+
+.numeral {
+    font-family: et-book-roman-old-style;
+}
+
+.danger {
+    color: red;
+}
+
+article {
+    padding: 5rem 0rem;
+}
+
+section {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    text-align: justify;
+}
+
+p,
+dl,
+ol,
+ul {
+    font-size: 1.4rem;
+    line-height: 2rem;
+}
+
+p {
+    margin-top: 1.4rem;
+    margin-bottom: 1.4rem;
+    padding-right: 0;
+    vertical-align: baseline;
+}
+
+/* Chapter Epigraphs */
+div.epigraph {
+    margin: 5em 0;
+}
+
+div.epigraph > blockquote {
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
+div.epigraph > blockquote,
+div.epigraph > blockquote > p {
+    font-style: italic;
+}
+
+div.epigraph > blockquote > footer {
+    font-style: normal;
+}
+
+div.epigraph > blockquote > footer > cite {
+    font-style: italic;
+}
+/* end chapter epigraphs styles */
+
+blockquote {
+    font-size: 1.4rem;
+}
+
+blockquote p {
+    width: 55%;
+    margin-right: 40px;
+}
+
+blockquote footer {
+    width: 55%;
+    font-size: 1.1rem;
+    text-align: right;
+}
+
+section > p,
+section > footer,
+section > table {
+    width: 85%;
+}
+
+/* 50 + 5 == 55, to be the same width as paragraph */
+section > dl,
+section > ol,
+section > ul {
+    width: 75%;
+    -webkit-padding-start: 5%;
+}
+
+dt:not(:first-child),
+li:not(:first-child) {
+    margin-top: 0.25rem;
+}
+
+figure {
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    max-width: 55%;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    margin: 0 0 3em 0;
+}
+
+figcaption {
+    float: right;
+    clear: right;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    vertical-align: baseline;
+    position: relative;
+    max-width: 40%;
+}
+
+figure.fullwidth figcaption {
+    margin-right: 24%;
+}
+
+/* Links: replicate underline that clears descenders */
+a:link,
+a:visited {
+    color: inherit;
+}
+
+a.icon:link {
+    background: unset;
+    text-shadow: unset;
+    border: 0;
+}
+
+a:link {
+    text-decoration: none;
+    background: -webkit-linear-gradient(#fffff8, #fffff8), -webkit-linear-gradient(#fffff8, #fffff8), -webkit-linear-gradient(currentColor, currentColor);
+    background: linear-gradient(#fffff8, #fffff8), linear-gradient(#fffff8, #fffff8), linear-gradient(currentColor, currentColor);
+    -webkit-background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+    -moz-background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+    background-size: 0.05em 1px, 0.05em 1px, 1px 1px;
+    background-repeat: no-repeat, no-repeat, repeat-x;
+    text-shadow: 0.03em 0 #fffff8, -0.03em 0 #fffff8, 0 0.03em #fffff8, 0 -0.03em #fffff8, 0.06em 0 #fffff8, -0.06em 0 #fffff8, 0.09em 0 #fffff8, -0.09em 0 #fffff8, 0.12em 0 #fffff8, -0.12em 0 #fffff8, 0.15em 0 #fffff8, -0.15em 0 #fffff8;
+    background-position: 0% 93%, 100% 93%, 0% 93%;
+}
+
+a:hover {
+    color: #C0CC99;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    a:link {
+        background-position-y: 87%, 87%, 87%;
+    }
+}
+
+/* Adds dark mode 
+@media (prefers-color-scheme: dark) {
+    a:link, .tufte-underline, .hover-tufte-underline:hover {
+        text-shadow: 0.03em 0 #151515, -0.03em 0 #151515, 0 0.03em #151515, 0 -0.03em #151515, 0.06em 0 #151515, -0.06em 0 #151515, 0.09em 0 #151515, -0.09em 0 #151515, 0.12em 0 #151515, -0.12em 0 #151515, 0.15em 0 #151515, -0.15em 0 #151515;
+    }
+}
+*/
+a:link::selection,
+a:link::-moz-selection {
+    text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
+    background: #b4d5fe;
+}
+
+img.framed {
+  box-shadow:
+    -50px -50px 0 -40px #C0CC99,
+    50px 50px 0 -40px #C0CC99;
+}
+
+/* Sidenotes, margin notes, figures, captions */
+img {
     max-width: 100%;
     height: auto;
 }
 
-img.profilepic {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius:5px;
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 2%;
-    max-width: 98%;
+.sans {
+    font-family: "Linux Biolinum O Regular", Calibri, sans-serif;
+    letter-spacing: .03em;
 }
 
-/* Dynamic two column layout */
-@media all and (min-width: 630px) {
-  /* two column code */
-  #container {
-    display: flex;
-    align-items: stretch;
-    flex-flow: row wrap;
-  }
-  #left {
-    order: 1;
-    width: 30%;
-  }
-  #right {
-    order: 2;
-    width: 70%;
-  }
+code, pre > code {
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 1.0rem;
+    line-height: 1.42;
+    -webkit-text-size-adjust: 100%; /* Prevent adjustments of font size after orientation changes in iOS. See https://github.com/edwardtufte/tufte-css/issues/81#issuecomment-261953409 */
 }
-@media all and (max-width: 629px) {
-  /* one column code */
-  #container {
-    display: flex;
-    align-items: stretch;
-    flex-flow: column wrap;
-  }
-  #left {
-    order: 2;
-    width: 100%;
-  }
-  #right {
-    order: 1;
-    width: 100%;
-  }
+
+.sans > code {
+    font-size: 1.2rem;
+}
+
+h1 > code,
+h2 > code,
+h3 > code {
+    font-size: 0.80em;
+}
+
+pre > code {
+    font-size: 0.9rem;
+    width: 52.5%;
+    margin-left: 2.5%;
+    overflow-x: auto;
+    display: block;
+}
+
+pre.fullwidth > code {
+    width: 90%;
+}
+
+.fullwidth {
+    max-width: 90%;
+    clear:both;
+}
+
+input.margin-toggle {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    body {
+        width: 84%;
+        padding-left: 8%;
+        padding-right: 8%;
+    }
+
+    hr,
+    section > p,
+    section > footer,
+    section > table {
+        width: 100%;
+    }
+
+    pre > code {
+        width: 97%;
+    }
+
+    section > dl,
+    section > ol,
+    section > ul {
+        width: 90%;
+    }
+
+    figure {
+        max-width: 90%;
+    }
+
+    figcaption,
+    figure.fullwidth figcaption {
+        margin-right: 0%;
+        max-width: none;
+    }
+
+    blockquote {
+        margin-left: 1.5em;
+        margin-right: 0em;
+    }
+
+    blockquote p,
+    blockquote footer {
+        width: 100%;
+    }
+
+    label {
+        cursor: pointer;
+    }
+
+    img {
+        width: 100%;
+    }
+}
+
+/* Publications & talks */
+ul.publication, ul.talk {
+    padding: 0;
+    list-style-type: none;
+    margin-bottom: 25px;
+    line-height: 1.0;
+}
+
+ul.publication li, ul.talk li {
+    padding: 1px 0;
+}
+
+.title {
+    font-family: "Linux Libertine Bold";
+    font-size: 1.5rem;
+}
+
+.authors {
+    font-style: normal;
+    font-family: "Linux Libertine Italic", sans-serif;
+}
+
+.info, .misc {
+    /* no particular style */
+}
+
+.info em {
+    font-family: "Linux Libertine Italic", sans-serif;
+}
+
+li.instances ul {
+    list-style-type: none;
+    padding: 0;
+    line-height: 1.1;
+}
+
+li.instances ul li, li.info {
+    display: inline;
+}
+
+li.instances ul.attachments, li.info ul.attachments {
+    margin-left: 0.8rem;
+}
+
+ul.attachments {
+    display: inline;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ul.attachments li {
+    display: inline;
+    font-size: 1.2rem;
+}
+
+ul.attachments li:before {
+    content: '[';
+}
+
+ul.attachments li:after {
+    content: ']';
+}
+
+ul.compact {
+    list-style-type: none;
+}
+
+ul.compact li {
+    display: inline;
+}
+
+ul.compact li:not(:last-child):after {
+    content: ', ';
+}
+
+ul.compact li:last-child:after {
+    content: '.';
 }
