@@ -1,0 +1,556 @@
+# This file is meant to be read in presentation mode.
+
+# Convenient function to mark examples.
+fun example(m)() { m() }
+
+fun undefined() { error("Undefined: Did you forget to reload the slides?") }
+
+# Composition operators
+op h -<- g { fun(m) { h(g(m)) } }
+op h -< m  { h(m) }
+
+#!
+#
+#  Liberating Effects with Rows and Handlers
+#
+#     Daniel Hillerström and Sam Lindley
+#       The University of Edinburgh, UK
+#
+#            TyDe'16, Nara, Japan
+#
+#?
+
+#!
+#
+# Introduction
+#
+# Monads are a successful abstraction for effectful programming
+# [Moggi, 1991; Wadler, 1992].
+#
+# Monadic effectful computations do not compose in general.
+# [Kammar, Lindley, and Oury, 2013; Kiselyov, Sabry, and Swords 2013].
+#
+# Algebraic effects [Plotkin and Power, 2001] combined with handlers
+# [Plotkin and Pretnar, 2013] provide a modular alternative to monads.
+#
+# We say [Hillerström and Lindley, 2016]:
+#  * to be modular an effect type system must support extensible
+#    effects.
+#  * the required abstraction to implement extensible effects and
+#    their handlers is exactly row polymorphism.
+#
+#?
+
+#!
+#
+# About this Talk
+# 
+# In this talk:
+#  * A taster of programming with row-polymorphic algebraic effects and
+#    handlers in Links.
+#  * These "slides" are in fact a runnable Links program.
+#
+# In the paper:	
+#  * Mathematical game Nim as an example of programming with handlers.
+#  * Implementation based on a generalised CEK machine.
+#  * Operational semantics and abstract machine semantics.
+#  * Proof that the two semantics coincide.
+#
+#?
+
+#!
+#
+# Links
+#
+# Links is a functional research web-programming language
+# [Cooper, Lindley, Wadler, and Yallop, 2006]:
+#   * Single source language for multi-tier web-programming.
+#   * Syntax reminiscent of JavaScript, e.g.
+        fun uncurriedAdd(x,y) { x + y }
+        fun   curriedAdd(x)(y){ x + y }
+#   * Statically typed with Hindley-Milner type inference.
+#   * Comprises three backends:
+#     - a JavaScript compiler for client-side code,
+#     - an interpreter for server-side code,
+#     - and a SQL generator for database code.
+#   * Effect system used to track whether a computation can run in the
+#     front-, back-, or database-end.
+#
+#?
+
+#
+#
+# Motivation
+#
+# Many programs comprise an *effectful* component that may
+#   - raise exceptions,
+#   - perform input/output,
+#   - mutate some state,
+#   - spawn processes,
+#   - be non-determinism,
+#   - ... and so forth
+#
+# In most programming languages effects are dealt with *implicitly*.
+#
+# Algebraic effects combined with handlers provide a modular
+# abstraction for modelling and controlling user-defined computational
+# effects such as the aforementioned.
+#
+#
+
+sig chooseSlide0 : ()
+#
+#
+# Algebraic Effects
+#
+# An algebraic effect is a collection of abstract operations. For
+# example, nondeterminism is an algebraic effect given by single
+# nondeterministic choose operation:
+
+  {Choose:Bool}  
+#
+-> Bool
+fun chooseSlide0() {
+#!
+#
+# Algebraic Effects
+#
+# An algebraic effect is a collection of abstract operations.  For
+# example, nondeterminism is given by a single operation `Choose'.
+#
+# In Links, an abstract operation is invoked using the `do' primitive:
+#
+   do Choose
+
+#?
+}
+
+#
+#
+# Effect Signatures
+#
+# We can abstract over the invocation of operations by using
+# functions. In Links, a function definition begins with the `fun'
+# keyword, and we may assign it a type using the `sig' keyword:
+
+sig choose : () {Choose:Bool |e}-> Bool
+fun choose() { do Choose }
+
+# Here `e' is a row variable which may be instantiated to contain
+# additional operations. This is to say, that `choose' may be used in
+# the presence of other effects.
+#
+#
+
+#!
+#
+# A Coin Toss [Kammar, Lindley, and Oury, 2013]
+#
+# We may use `Choose' to model a coin toss, e.g.
+
+typename Toss = [|Heads|Tails|]; # Variant type with two constructors
+
+sig toss : () {Choose:Bool |e}-> Toss
+fun toss() {
+  if (do Choose) Heads
+  else Tails
+}
+
+# The variable `e' is a row variable. Links uses Remy-style row
+# polymorphism [Remy, 1993] to implement extensible effect signatures.
+
+# Let us try to evaluate this computation.
+var ex1 = toss;
+
+#?
+
+#
+#
+# Abstract Computations
+#
+# Evaluation of `toss' throws "Unhandled operation: Choose" right at us.
+#
+# Thus far we have only considered the *syntax* of effects. We say
+# that `toss' is an *abstract computation*.
+#
+# How can we turn `toss' into a *concrete* computation?
+#
+#
+
+#
+#
+# Syntax of effectful computations
+#
+# Thus far we have only considered the *syntax* of effects.
+# Visually, we may depict `toss` as computation tree, e.g.
+#
+#            Choose
+#              /\
+#       true  /  \  false
+#            /    \
+#        Heads    Tails
+#
+# Internal nodes: Operation names
+#          Edges: Labelled with return values of the origin operation
+#         Leaves: Return values of the abstract computation
+#
+
+# A handler consists of a collection of clauses, in this case two:
+#
+#    1) A Return clause which determines how to handle the
+#       return value `x' of the computation `m',
+#    2) and an operation clause `Choose' which determines
+#       how to handle the said operation in `m'.
+#
+
+#!
+#
+# Effect Handlers
+#
+# An effect handler is a modular interpreter for computations. 
+#
+# As an example consider a random interpretation of `Choose':
+
+handler randomResult {
+  case Return(x)      -> x
+  case Choose(resume) -> resume(random() > 0.5)
+}
+
+# The operation clause `Choose' expose a function `resume' which is
+# the delimited continuation of the operation in the handled
+# computation.
+#
+# Using `randomResult' to interpret `toss':
+var ex2 = randomResult(toss);
+
+#?
+
+# I am cheating a bit here.
+sig randomResult0 : (() {Choose:Bool |e}~> a) -> () {Choose{_} |e}~> a
+handler randomResult0 {
+  case Return(x)      -> x
+  case Choose(resume) -> resume(random() > 0.5)
+}
+
+var ex2 = randomResult0(toss);
+
+#
+#
+# Instantiation of Abstract Computations
+#
+# Using `randomResult' we may interpret `toss':
+
+#var ex2 = example( randomResult(toss)  );
+
+#
+
+#!
+#
+# Ascribing Types to Handlers
+#
+# What might the type of `randomResult' be?
+# What should we write in place of `e1' and `e2'?
+
+sig randomResult : (() {Choose:Bool |e}~> a) ->
+                    () {Choose-     |e}~> a
+handler randomResult {
+  case Return(x)      -> x
+  case Choose(resume) -> resume(random() > 0.5)
+}
+#?
+
+#!
+#
+# An Enumerative Interpretation
+#
+# The application `randomResult(toss)' yields a computation which
+# returns *either* `Heads' or `Tails'.
+#
+# Alternatively, we can give an interpretation which enumerates the
+# possible outcomes of a computation:
+
+sig allChoices : (() {Choose:Bool |e}~>  a) ->
+                  () {Choose-     |e}~> [a]
+handler allChoices {
+  case Return(x)      -> [x]
+  case Choose(resume) -> resume(true) ++ resume(false)
+}
+
+# An example of it in action
+var ex3 = allChoices(toss);
+
+#?
+
+# I'm cheating a bit here. Due to absence I'll not be able to evaluate `ex3' after evaluating `ex1'.
+sig allChoices0 : (() {Choose:Bool |e}~>  a) ->
+                   () {Choose{_}   |e}~> [a]
+handler allChoices0 {
+  case Return(x)      -> [x]
+  case Choose(resume) -> resume(true) ++ resume(false)
+}
+
+var ex3 = allChoices0(toss);
+
+#!
+#
+# Exceptions
+#
+# Let us introduce another abstract operation `Fail':
+
+typename Zero = [||]; # The empty type
+
+sig fail : forall a::Type . () {Fail:Zero |e}-> a
+fun fail() {
+  switch (do Fail) { }
+}
+
+# Because `Fail' returns an element of the empty type `Zero', then an
+# invocation of `fail' amounts to raising an exception.
+#
+#?
+
+#!
+#
+# A Drunk Coin Toss
+#
+# We can use `toss' and `fail' to model a drunkard tossing a coin:
+
+sig drunkToss : () {Choose:Bool,Fail:Zero |e}-> Toss
+fun drunkToss() {
+  if (do Choose) toss() # Performs `Choose'
+  else fail()           # Performs `Fail'
+}
+
+# The two branches of `drunkToss' perform different effects. So, what
+# might the effect signature of `drunkToss' be?
+#
+# Recall
+sig toss : () {Choose:Bool |e}-> Toss
+
+# Note: We only mention `Choose' once in `drunkToss'. Alternative
+# systems permit multiple occurrences e.g. Koka [Leijen, 2014].
+
+#?
+var toss = toss;
+
+#!
+#
+# Partial Interpretations
+#
+# With `randomResult' and `allChoices' we may only give a partial
+# interpretation of `drunkToss', e.g.
+
+# This one will not succeed:
+var ex4 = allChoices(drunkToss);
+
+# Maybe we get lucky:
+var ex5 = randomResult(drunkToss);
+#?
+
+var ex4 = allChoices0(drunkToss);
+var ex5 = randomResult0(drunkToss);
+
+# While we could include a `Fail' clause in `allChoices', a better and
+# more modular alternative is to define a separate handler for `Fail'
+# and then compose it with a handler for `Choose' in order to fully
+# interpret `drunkToss'.
+#
+
+#!
+# 
+# Modular Interpretations
+#
+# We define a handler that models the possibility of failure as a
+# Maybe-value:
+
+typename Maybe(a) = [|Just:a|Nothing|]; # Maybe type constructor
+
+sig maybeResult : (() {Fail:Zero |e}~>       a) ->
+                   () {Fail-     |e}~> Maybe(a)
+handler maybeResult {
+  case Return(x) -> Just(x)
+  case Fail(_)   -> Nothing
+}
+
+#?
+
+sig maybeResult0 : (() {Fail:Zero |e}~>       a) ->
+                    () {Fail{_}   |e}~> Maybe(a)
+handler maybeResult0 {
+  case Return(x) -> Just(x)
+  case Fail(_)   -> Nothing
+}
+
+#!
+#
+# Drunk Coin Tossing
+#
+# Now, we can fully interpret `drunkToss':
+sig ex6 : () {Choose-,Fail- |e}~> [Maybe (Toss)]
+fun ex6() { (allChoices -<- maybeResult -< drunkToss)() }
+
+# the opposite composition:
+sig ex7 : () {Choose-,Fail- |e}~> Maybe ([Toss])
+fun ex7() { (maybeResult -<- allChoices -< drunkToss)() }
+
+# with `randomResult':
+sig ex8 : () {Choose-,Fail- |e}~> Maybe (Toss) 
+fun ex8() { (randomResult -<- maybeResult -< drunkToss)() }
+#?
+
+var ex6 = allChoices0 -<- maybeResult0 -< drunkToss;
+var ex7 = maybeResult0 -<- allChoices0 -< drunkToss;
+var ex7_toss = maybeResult0 -<- allChoices0 -< toss;
+var ex8 = randomResult0 -<- maybeResult0 -< drunkToss;
+
+#
+#
+# Stateful Interpretations (I)
+#
+# Nondeterminism and failure both comprise a single operation. But,
+# algebraic effects may in general consist of more operations.
+#
+# A canonical example of this is *state* which consists of two
+# operations:
+
+# State retrieval
+sig get : () {Get:s|_}-> s
+fun get() { do Get }
+
+# State update
+sig put : (s) {Put:(s) {}-> ()|_}-> ()
+fun put(s) { do Put(s) }
+
+# Note: Empty effect signature on `Put', because any effects it may
+# have are conferred by its handler.
+
+#
+
+# Replay computation
+fun replay(n)(m)() {
+  if (n <= 0) ()
+  else { var _ = m(); replay(n-1)(m)() }
+}
+
+#
+#
+# Stateful Interpretations (II)
+#
+# Say, we want to log the outcomes of `drunkToss'. To achieve this we
+# define a stateful post-processing handler:
+
+sig logOutcome : (() {Get:[a],Put:([a]) {}-> () |e}~>  a) ->
+                  () {Get:[a],Put:([a]) {}-> () |e}~> ()
+handler logOutcome {
+  case Return(x) -> put(x :: get())
+}
+
+#
+
+#
+#
+# Stateful Interpretations (III)
+#
+# To thread state through a program, we may use a *parameterised*
+# handler, e.g.
+#
+
+sig runState : (s) ->
+               (() {Get:s ,Put:(s) {}-> () |e}~> a) ->
+	        () {Get{_},Put{_}          |e}~> (a,s)
+handler runState(s) {
+  case Return(x)     -> (x,s)
+  case Get(resume)   -> undefined()
+  case Put(p,resume) -> undefined()
+}
+
+# What should we write in place of `undefined()'?
+#
+#
+
+#
+#
+# Stateful Interpretations (IV)
+#
+# Here is an example which logs the outcomes of `n' drunk tosses:
+
+sig logDrunkToss : (Int) ->
+                   () {Choose:Bool,Fail{_},Get{_},Put{_}|_}~> [Maybe (Toss)]
+fun logDrunkToss(n)() {
+  # var (_, s) = runState([])          # state handler;
+  #                 (replay(n)         # evaluates a comp. `n' times;
+  # 		     (logOutcome     # logs the outcome of a comp;
+  # 		        (maybeResult # exception handler.
+  # 			  (drunkToss))))();
+  # s
+  undefined()
+}
+
+# According to its effect signature the computation is only partially
+# instantiated. We need to pick an interpretation of `Choose'.
+#
+#
+
+
+#!
+#
+# Summary and Future Work
+#
+# We have briefly seen that 
+#  * Row polymorphism provides a neat abstraction for extensible
+#    effects.
+#  * Effectful computations compose smoothly.
+#  * Handlers provide modular interpretations of effects.
+#
+# See the paper for
+#  * The Nim game as another example of programming
+#    with handlers.
+#  * Examples with presence polymorphism (c.f. cheat detection).
+#  * Formalisation: operational semantics, type system, soundness, etc.
+#  * The implementation details (CEK machine).
+#
+# Future Work
+#  * A compiler for server-side Links with effect handlers
+#    (see my ML talk on Thursday).
+#  * Type-and-effect directed optimisations of handlers.
+#  * Extend the effect handlers to the client-side.
+#
+#?
+
+#!
+#
+# Thanks / Acknowledgements
+#
+# Hillerström was supported by EPSRC grant EP/L01503X/1 (The
+# University of Edinburgh CDT in Pervasive Parallelism).
+#
+# Lindley was supported by EPSRC grant EP/K034413/1 (A Basis for
+# Concurrency and Distribution).
+#
+#?
+
+#!
+#
+# References
+#
+# Moggi, "Notions of Computations and Monads", IC 1991.
+#
+# Wadler, "Essence of Functional Programming", POPL 1992.
+#
+# Rémy, "Type Inference for a Natural Extension of ML", TAOOP 1993.
+#
+# Plotkin and Power, "Adequacy for Algebraic Effects", FoSSaCS 2001.
+#
+# Cooper, Lindley, Wadler, and Yallop "Links: Web Programming Without Tiers", FMCO 2006. 
+#
+# Kammar, Lindley, and Oury, "Handlers in Action", ICFP 2013.
+#
+# Kiselyov, Sabry, and Swords, "Extensible Effects", Haskell 2013.
+#
+# Plotkin and Pretnar, "Handling Algebraic Effects", LMCS 2013.
+#
+# Leijen, "Koka: Programming with Row Polymorphic Effect Types", MSFP 2014.
+#
+# Hillerström and Lindley, "Liberating Effects with Rows and Handlers", TyDe 2016.
+#
+#?
