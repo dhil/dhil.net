@@ -412,63 +412,6 @@ pre.fullwidth > code {
     clear:both;
 }
 
-input.margin-toggle {
-    display: none;
-}
-
-@media (max-width: 760px) {
-    body {
-        width: 84%;
-        padding-left: 8%;
-        padding-right: 8%;
-    }
-
-    hr,
-    section > p,
-    section > footer,
-    section > table {
-        width: 100%;
-    }
-
-    pre > code {
-        width: 97%;
-    }
-
-    section > dl,
-    section > ol,
-    section > ul {
-        width: 90%;
-    }
-
-    figure {
-        max-width: 90%;
-    }
-
-    figcaption,
-    figure.fullwidth figcaption {
-        margin-right: 0%;
-        max-width: none;
-    }
-
-    blockquote {
-        margin-left: 1.5em;
-        margin-right: 0em;
-    }
-
-    blockquote p,
-    blockquote footer {
-        width: 100%;
-    }
-
-    label {
-        cursor: pointer;
-    }
-
-    img {
-        width: 100%;
-    }
-}
-
 /* Publications & talks */
 ul.publication, ul.talk {
     padding: 0;
@@ -547,3 +490,86 @@ ul.compact li:not(:last-child):after {
 ul.compact li:last-child:after {
     content: '.';
 }
+
+/* Small screen devices */
+@media (max-width: 1125px) {
+    body {
+        width: 84%;
+        padding-left: 8%;
+        padding-right: 8%;
+    }
+
+    hr,
+    section > p,
+    section > footer,
+    section > table {
+        width: 100%;
+    }
+
+    pre > code {
+        width: 97%;
+    }
+
+    section > dl,
+    section > ol,
+    section > ul {
+        width: 90%;
+    }
+
+    figure {
+        max-width: 90%;
+    }
+
+    figcaption,
+    figure.fullwidth figcaption {
+        margin-right: 0%;
+        max-width: none;
+    }
+
+    blockquote {
+        margin-left: 1.5em;
+        margin-right: 0em;
+    }
+
+    blockquote p,
+    blockquote footer {
+        width: 100%;
+    }
+
+    label {
+        cursor: pointer;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    .profile {
+        display: block;
+    }
+
+    .profile-picture {
+        flex: 100%;
+    }
+
+    .profile-picture img {
+        max-height: 400px;
+        max-width: 400px;
+    }
+
+    .profile-details {
+        margin-left: 0;
+        flex: 100%;
+    }
+
+    section {
+        text-align: left;
+    }
+
+    ul.attachments {
+        display: block;
+        list-style-type: none;
+        padding-left: 10px;
+    }
+}
+
