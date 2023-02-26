@@ -165,6 +165,7 @@ em {
 
 .profile {
     display: flex;
+    align-items: flex-start;
 }
 
 .profile-picture {
@@ -204,7 +205,7 @@ p.subtitle {
 }
 
 article {
-    padding: 5rem 0rem;
+    padding: 2rem 0rem;
 }
 
 section {
@@ -323,6 +324,12 @@ a:visited {
 a.icon:link {
     background: unset;
     text-shadow: unset;
+    border: 0;
+}
+
+a.icon img {
+    width: 1.8rem;
+    height: 1.8rem;
     border: 0;
 }
 
@@ -570,6 +577,10 @@ ul.compact li:last-child:after {
         display: block;
         list-style-type: none;
         padding-left: 10px;
+    }
+
+    article {
+        padding: 1rem 0rem;
     }
 }
 
