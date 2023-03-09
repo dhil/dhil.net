@@ -1,5 +1,8 @@
 .PHONY: all
-all: last-modified
+all: build sync deploy
+
+.PHONY: build
+build: last-modified
 
 .PHONY: last-modified
 last-modified: index.template.html
@@ -11,7 +14,8 @@ deploy:
 
 .PHONY: sync
 sync:
-	git add --all
+	git add index.html index.template.html
+	git add research/ static/
 	git commit -m "Sync"
 	git push
 
