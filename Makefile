@@ -10,7 +10,7 @@ last-modified: index.template.html
 
 .PHONY: deploy
 deploy:
-	scp -r 404.html index.html research static newton:/var/www/dhil.net/
+	scp -r 403.html 404.html index.html research static newton:/var/www/dhil.net/
 
 .PHONY: sync
 sync:
