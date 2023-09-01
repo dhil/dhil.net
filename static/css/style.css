@@ -439,6 +439,30 @@ ul.publication li, ul.talk li {
 .authors {
     font-style: normal;
     font-family: "Linux Libertine Italic", sans-serif;
+    text-align: left;
+}
+
+.authors ul, .authors2 ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.authors ul li, .authors2 ul li {
+    display: inline;
+}
+
+/* Three or more authors and two authors. */
+.authors ul li:not(:last-of-type)::after {
+    content: ", ";
+}
+
+.authors ul li:not(:first-of-type):last-of-type::before,
+.authors2 ul li:not(:first-of-type)::before {
+    content: " and ";
+}
+
+/* Single author. */
+.authors ul li:first-of-type:last-of-type {
 }
 
 .info, .misc {
