@@ -106,7 +106,7 @@ body {
     text-align: left;
 }
 
-/* Adds dark mode 
+/* Adds dark mode
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #151515;
@@ -144,13 +144,6 @@ h3 {
 }
 
 hr {
-    /* display: block; */
-    /* height: 1px; */
-    /* width: 55%; */
-    /* border: 0; */
-    /* border-top: 1px solid #ccc; */
-    /* margin: 1em 0; */
-    /* padding: 0; */
     margin-left: 0;
     width: 87%;
     border: 0;
@@ -200,10 +193,6 @@ p.subtitle {
     font-family: et-book-roman-old-style;
 }
 
-.danger {
-    color: red;
-}
-
 article {
     padding: 2rem 0rem;
 }
@@ -228,30 +217,6 @@ p {
     padding-right: 0;
     vertical-align: baseline;
 }
-
-/* Chapter Epigraphs */
-div.epigraph {
-    margin: 5em 0;
-}
-
-div.epigraph > blockquote {
-    margin-top: 3em;
-    margin-bottom: 3em;
-}
-
-div.epigraph > blockquote,
-div.epigraph > blockquote > p {
-    font-style: italic;
-}
-
-div.epigraph > blockquote > footer {
-    font-style: normal;
-}
-
-div.epigraph > blockquote > footer > cite {
-    font-style: italic;
-}
-/* end chapter epigraphs styles */
 
 blockquote {
     font-size: 1.4rem;
@@ -331,6 +296,11 @@ a.icon img {
     width: 1.8rem;
     height: 1.8rem;
     border: 0;
+    transition: opacity .3s;
+}
+
+a.icon img:hover {
+    opacity: 0.3;
 }
 
 a:link {
@@ -355,7 +325,7 @@ a:hover {
     }
 }
 
-/* Adds dark mode 
+/* Adds dark mode
 @media (prefers-color-scheme: dark) {
     a:link, .tufte-underline, .hover-tufte-underline:hover {
         text-shadow: 0.03em 0 #151515, -0.03em 0 #151515, 0 0.03em #151515, 0 -0.03em #151515, 0.06em 0 #151515, -0.06em 0 #151515, 0.09em 0 #151515, -0.09em 0 #151515, 0.12em 0 #151515, -0.12em 0 #151515, 0.15em 0 #151515, -0.15em 0 #151515;
