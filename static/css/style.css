@@ -436,7 +436,7 @@ ul.publication li, ul.talk li {
     font-size: 1.5rem;
 }
 
-.authors {
+.authors, .authors2 {
     font-style: normal;
     font-family: "Linux Libertine Italic", sans-serif;
     text-align: left;
