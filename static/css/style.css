@@ -10,6 +10,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('Linux Biolinum O Regular'), url('../fonts/LinBiolinum_R.woff') format('woff');
+    font-display: swap;
 }
 
 
@@ -18,6 +19,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('Linux Biolinum O Italic'), url('../fonts/LinBiolinum_RI.woff') format('woff');
+    font-display: swap;
 }
 
 
@@ -26,6 +28,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('Linux Biolinum O Bold'), url('../fonts/LinBiolinum_RB.woff') format('woff');
+    font-display: swap;
 }
 
 
@@ -34,6 +37,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('Linux Biolinum Keyboard O Regular'), url('../fonts/LinBiolinum_K.woff') format('woff');
+    font-display: swap;
 }
 
 @font-face {
@@ -41,6 +45,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('Linux Libertine'), url('../fonts/LinLibertine_Re-4.1_.8_.woff') format('woff');
+    font-display: swap;
 }
 
 
@@ -49,6 +54,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('Linux Libertine Italic'), url('../fonts/LinLibertine_It-4.0_.3_.woff') format('woff');
+    font-display: swap;
 }
 
 
@@ -57,6 +63,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('Linux Libertine Bold'), url('../fonts/LinLibertine_Bd-4.0_.2_.woff') format('woff');
+    font-display: swap;
 }
 
 
@@ -65,6 +72,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('Linux Libertine Bold Italic'), url('../fonts/LinLibertine_BI-4.0_.3_.woff') format('woff');
+    font-display: swap;
 }
 
 
@@ -73,6 +81,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('Linux Libertine Capitals'), url('../fonts/LinLibertineC_Re-4.0_.1_.woff') format('woff');
+    font-display: swap;
 }
 
 /* Markup */
