@@ -115,14 +115,6 @@ body {
     text-align: left;
 }
 
-/* Adds dark mode
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #151515;
-        color: #ddd;
-    }
-}
-*/
 h1, h2, h3, h4, h5 {
     font-weight: 400;
     line-height: 1;
@@ -334,13 +326,6 @@ a:hover {
     }
 }
 
-/* Adds dark mode
-@media (prefers-color-scheme: dark) {
-    a:link, .tufte-underline, .hover-tufte-underline:hover {
-        text-shadow: 0.03em 0 #151515, -0.03em 0 #151515, 0 0.03em #151515, 0 -0.03em #151515, 0.06em 0 #151515, -0.06em 0 #151515, 0.09em 0 #151515, -0.09em 0 #151515, 0.12em 0 #151515, -0.12em 0 #151515, 0.15em 0 #151515, -0.15em 0 #151515;
-    }
-}
-*/
 a:link::selection,
 a:link::-moz-selection {
     text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
@@ -499,6 +484,33 @@ ul.compact li:not(:last-child):after {
 
 ul.compact li:last-child:after {
     content: '.';
+}
+
+ul.awards {
+    display: block;
+    list-style-type: none;
+    padding-left: 0.2rem;
+}
+
+ul.awards li {
+    display: inline;
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+
+mark {
+  margin: 0 -0.4em;
+  padding: 0.1em 0.4em;
+  border-radius: 0.8em 0.3em;
+  background: transparent;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 225, 0, 0.3),
+    rgba(255, 225, 0, 0.3),
+    rgba(255, 225, 0, 0.3)
+  );
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 /* Small screen devices */
