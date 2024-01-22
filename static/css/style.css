@@ -498,6 +498,16 @@ ul.awards li {
     margin-right: 1rem;
 }
 
+ul.highlights {
+    display: inline;
+}
+
+ul.highlights li {
+    display: inline;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+}
+
 mark {
   margin: 0 -0.4em;
   padding: 0.1em 0.4em;
