@@ -1,0 +1,52 @@
+# Breaking Links
+# D. Hillerström, S. Lindley, and L. White
+
+# Breaking session fidelity.
+# Invoke the resumption twice to inadvertently perform two receives
+# over a session-typed channel !Int.end.
+fun deadlock() {
+  var ch = fork(fun(ch) {
+     var ch = send(42, ch);
+     ignore(ch)
+  });
+
+  handle({
+    # Nondeterministic choice.
+    ignore(do Flip);
+    var (i, ch) = receive(ch);
+    println("Int: " ^^ intToString(i));
+    ignore(ch)
+  }) {
+    case Return(_) -> ()
+    case Flip(resume) ->
+      resume(true); resume(false)
+  }
+}
+
+# Breaking type safety.
+# Inadvertently send two integers over a session-typed channel
+# !Int.!String.end by using multi-shot continuations and exceptions.
+fun unsound() {
+  var ch = fork(fun(ch) {
+     var (i, ch) = receive(ch);
+     var (s, ch) = receive(ch);
+     println("Int: " ^^ intToString(i));
+     println("String: " ^^ s);
+     ignore(ch)
+  });
+
+  handle({
+    # Nondeterministic choice.
+    var msg = if (do Flip) 42 else 84;
+    var ch = send(msg, ch);
+    # Throws an exception
+    ignore(do Fail);
+    var ch = send("foo", ch);
+    ignore(ch)
+  }) {
+    case Return(_) -> ()
+    case Fail(_) -> ()
+    case Flip(resume) ->
+      resume(true); resume(false)
+  }
+}
