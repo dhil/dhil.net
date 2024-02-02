@@ -383,8 +383,8 @@ pre.fullwidth > code {
     clear:both;
 }
 
-/* Publications & talks */
-ul.publication, ul.talk {
+/* Publications, talks, and software */
+ul.publication, ul.talk, ul.software-listing {
     padding: 0;
     list-style-type: none;
     margin-bottom: 25px;
@@ -394,6 +394,16 @@ ul.publication, ul.talk {
 ul.publication li, ul.talk li {
     padding: 1px 0;
 }
+
+ul.software {
+    list-style-type: none;
+    padding-left: 1.5rem;
+}
+
+ul.software li {
+    padding: 0;
+}
+
 
 .title {
     font-family: "Linux Libertine Bold";
@@ -470,6 +480,10 @@ ul.attachments li:after {
     content: ']';
 }
 
+ul.software ul.attachments {
+    padding-left: 0.8rem;
+}
+
 ul.compact {
     list-style-type: none;
 }
@@ -521,6 +535,22 @@ mark {
   );
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
+}
+
+/* Collapsible */
+details p {
+    padding-left: 1.6rem;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+details summary {
+    padding: 0;
+    cursor: pointer;
+}
+
+.collapsible {
+    display: flex;
 }
 
 /* Small screen devices */
