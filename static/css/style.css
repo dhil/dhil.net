@@ -637,5 +637,9 @@ details summary {
     article {
         padding: 1rem 0rem;
     }
+
+    ul.highlights, ul.highlights li {
+        display: block;
+    }
 }
 
