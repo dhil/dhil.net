@@ -25,18 +25,22 @@ function makeHref(protocol, x) {
     return "<a href=\"" + protocol.join("") + ":" + x + "\">" + x + "</a>";
 }
 
-function unveil() {
-    const ac = document.getElementById("reveal-ac");
-    const co = document.getElementById("reveal-co");
+function showAddress(elem, addrFn) {
     if (isKnownCrawler()) {
-        const text = "[this information is hidden]";
-        ac.innerHTML = text;
-        co.innerHTML = text;
+        elem.innerHTML = "[this information is hidden]";
     } else {
         const protocol = ['m', 'a', 'i', 'l', 't', 'o'];
-        ac.innerHTML = makeHref(protocol, academic());
-        co.innerHTML = makeHref(protocol, corporate());
+        elem.innerHTML = makeHref(protocol, addrFn());
     }
 }
 
-document.addEventListener("DOMContentLoaded", unveil);
+function unveil(ac, co) {
+    if (ac !== null) {
+        showAddress(document.getElementById(ac), academic);
+    }
+    if (co !== null) {
+        showAddress(document.getElementById(co), corporate);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() { return unveil("reveal-ac", null); });
