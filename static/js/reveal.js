@@ -16,8 +16,8 @@ function academic() {
 }
 
 function corporate() {
-    const prefix = ['d', 'a', 'n', 'i', 'e', 'l', '.', 'h', 'i', 'l', 'l', 'e', 'r', 's', 't', 'r', 'o', 'm'];
-    const suffix = ['h', 'u', 'a', 'w', 'e', 'i', '.', 'c', 'o', 'm'];
+    const prefix = ['d', 'h', 'i', 'l', 'l', 'e', 'r', 's', 't', 'r', 'o', 'm'];
+    const suffix = ['c', 'a', 't', 'e', 'g', 'o', 'r', 'y', '.', 'x', 'y', 'z'];
     return glue(prefix, suffix);
 }
 
@@ -43,4 +43,4 @@ function unveil(ac, co) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() { return unveil("reveal-ac", null); });
+document.addEventListener("DOMContentLoaded", function() { return unveil("reveal-ac", "reveal-co"); });
