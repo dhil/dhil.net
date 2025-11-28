@@ -16,30 +16,29 @@ function academic() {
 }
 
 function corporate() {
-    const prefix = ['d', 'h', 'i', 'l', 'l', 'e', 'r', 's', 't', 'r', 'o', 'm'];
-    const suffix = ['c', 'a', 't', 'e', 'g', 'o', 'r', 'y', '.', 'x', 'y', 'z'];
-    return glue(prefix, suffix);
+    return academic() + "?subject=[Category Labs] Enquiry";
 }
 
-function makeHref(protocol, x) {
-    return "<a href=\"" + protocol.join("") + ":" + x + "\">" + x + "</a>";
+function makeHref(protocol, x, y) {
+    return "<a href=\"" + protocol + ":" + x + "\">" + y + "</a>";
 }
 
-function showAddress(elem, addrFn) {
+function showAddress(elem, addrFn, txt) {
     if (isKnownCrawler()) {
         elem.innerHTML = "[this information is hidden]";
     } else {
         const protocol = ['m', 'a', 'i', 'l', 't', 'o'];
-        elem.innerHTML = makeHref(protocol, addrFn());
+        const addr = addrFn();
+        elem.innerHTML = makeHref(protocol.join(""), addrFn(), txt === null ? addr : txt);
     }
 }
 
 function unveil(ac, co) {
     if (ac !== null) {
-        showAddress(document.getElementById(ac), academic);
+        showAddress(document.getElementById(ac), academic, null);
     }
     if (co !== null) {
-        showAddress(document.getElementById(co), corporate);
+        showAddress(document.getElementById(co), corporate, "[Category Labs]");
     }
 }
 
